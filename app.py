@@ -5,8 +5,11 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options 
 from selenium.webdriver.common.by import By
+from database import criar_banco, salvar_consulta, listar_historico
+
 import time 
 app = Flask(__name__)
+criar_banco() # cria o banco assim que o app inicia 
 
 def calcular_viagem(distancia, consumo, preco):
     """Lógica básica de cálculo de consumo"""
@@ -44,8 +47,11 @@ def index():
         prec = float(request.form.get('preco'))
         
         resultado = calcular_viagem(dist, cons, prec)
+        salvar_consulta(dist, cons, prec, resultado)
     
-    return render_template('index.html', resultado=resultado, preco_final=preco_final)
+    # Busca o historico para mostrar na tela 
+    historico = listar_historico()
+    return render_template('index.html', resultado=resultado, preco_final=preco_final, historico=historico)
 
 if __name__ == '__main__':
     app.run(debug=True)
