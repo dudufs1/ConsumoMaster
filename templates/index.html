@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConsumoMaster - Simulador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #f8f9fa; 
+        }
+        .card-custom { 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            
+        }
+        .btn-master { background-color: #0d6efd; color: white; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <header class="text-center mb-3">
+        <h1 class="display-4 fw-bold text-primary">ConsumoMaster</h1>
+        <p class="lead">Simulação inteligente e análise de combustível</p>
+    </header>
+    
+    <div class="row justify-content-center mb-4">
+        {% if preco_final %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-6 text-center">
+                <div class="alert alert-info border-info" style="border-radius: 10px;">
+                    <i class="bi bi-info-circle-fill"></i> 
+                    Média Nacional Atual (ANP/Google): 
+                    <strong class="text">R$ {{ preco_final }}</strong>
+                    <br>
+                    <small class="text-muted">(Dados obtidos via Petrobras 'Webdriver')</small>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-md-6">
+            <div class="card card-custom p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Distância (km)</label>
+                        <input type="number" step="0.1" name="distancia" class="form-control" placeholder="Ex: 150" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Consumo Médio (km/L)</label>
+                        <input type="number" step="0.1" name="consumo" class="form-control" placeholder="Ex: 12.5" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preço do Combustível (R$)</label>
+                        <input type="number" step="0.01" name="preco" class="form-control" placeholder="Ex: 5.89" required>
+                    </div>
+                    <button type="submit" class="btn btn-master w-100 py-2">Calcular Custos</button>
+                </form>
+
+                {% if resultado %}
+                <div class="mt-4 alert alert-success text-center">
+                    <h5>Resultado da Simulação:</h5>
+                    <p class="h3 mb-0">R$ {{ resultado }}</p>
+                    <small class="text-muted">Custo estimado para a viagem</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <footer class="text-center mt-5 text-muted">
+        <small>&copy; 2026 ConsumoMaster - Desenvolvido com Python & Flask</small>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
